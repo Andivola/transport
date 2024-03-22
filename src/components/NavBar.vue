@@ -2,11 +2,11 @@
   <div class="sidebar">
     <h1 class="sidebar-header">Transport</h1>
     <nav class="nav-menu">
-      <router-link class="nav-item" to="/">Employé</router-link>
       <router-link class="nav-item" to="/trajet">Trajet</router-link>
+      <router-link class="nav-item" to="/">Employé</router-link>
+      <router-link class="nav-item" to="/voiture">Département</router-link>
       <router-link class="nav-item" to="/voiture">Voiture</router-link>
       <router-link class="nav-item" to="/voiture">Transporteur</router-link>
-      <router-link class="nav-item" to="/voiture">Département</router-link>
       <router-link class="nav-item" to="/voiture">Calendrier</router-link>
       <router-link class="nav-item" to="/voiture">Etat</router-link>
     </nav>

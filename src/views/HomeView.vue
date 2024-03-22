@@ -1,15 +1,16 @@
 <template>
-  <DepartementView/>
+  <TableDep/>
 </template>
 
 <script>
 // @ is an alias to /src
-import DepartementView from '../components/DepartementView.vue'
+import TableDep from '@/components/TableDep.vue';
+
 
 export default {
   name: 'HomeView',
   components: {
-    DepartementView
+    TableDep
   }
 }
 </script>
