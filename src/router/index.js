@@ -14,8 +14,18 @@ const routes = [
   },
   {
     path: '/trans',
-    name: 'voiture',
+    name: 'transport',
     component: () => import('../views/TransForm.vue')
+  },
+  {
+    path: '/trajet',
+    name: 'trajet',
+    component: () => import('../views/TrajetForm.vue')
+  },
+  {
+    path: '/employe',
+    name: 'employe',
+    component: () => import('../views/EmployeForm.vue')
   },
   {
     path: '/departement',

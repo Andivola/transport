@@ -1,15 +1,15 @@
 <template>
-    <TransporteurView/>
+    <TableTrans/>
   </template>
   
   <script >
-  import TransporteurView from '@/components/TransporteurView.vue';
+  import TableTrans from '@/components/TableTrans.vue';
   
   
   export default {
     name: 'TransForm',
     components: {
-        TransporteurView
+        TableTrans
     }
   }
   </script>
