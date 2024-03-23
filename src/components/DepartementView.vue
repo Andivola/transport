@@ -5,11 +5,11 @@
       <form @submit.prevent="submitForm" class="card-body">
         <h2 class="card-header">Département Information</h2>
         <div class="form-row">
-          <label for="codeDepartement">Code</label>
+          <label for="codeDepartement">Code Département:</label>
           <input type="text" id="codeDepartement" v-model="departement.code" required>
         </div>
         <div class="form-row">
-          <label for="nomDepartement">Nom Département</label>
+          <label for="nomDepartement">Nom Département:</label>
           <input type="text" id="nomDepartement" v-model="departement.nom" required>
         </div>
         <div class="form-actions">
@@ -71,17 +71,19 @@ export default {
 .form-actions {
   display: flex;
   justify-content: flex-start;
+  margin: 25px;
 }
 
 .btn {
   padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
+  margin-right: 15px;
   color: white;
   background-color: #9b59b6;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  
 }
 
 .btn:hover {
@@ -97,24 +99,20 @@ export default {
 }
 
 .form-row {
-  display: flex;
+  
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.form-row label {
-  flex: 1;
-}
-
-.form-row input {
-  flex: 3;
+label{
+  padding: 30px;
 }
 
 input[type="text"] {
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  
+  width: 200px;
 }
 
 </style>

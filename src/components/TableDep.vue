@@ -1,11 +1,10 @@
 <template>
     <div class="table-card">
-      <h2>Department Index</h2>
+      <h2>Liste des département</h2>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>ID</th>
               <th>CODE</th>
               <th>NAME</th>
               <th>ACTIONS</th>
@@ -13,7 +12,6 @@
           </thead>
           <tbody>
             <tr v-for="departement in departements" :key="departement.id">
-              <td>{{ departement.id }}</td>
               <td>{{ departement.code }}</td>
               <td>{{ departement.nom }}</td>
               <td>
@@ -33,22 +31,33 @@
   import { ref } from 'vue';
 //   import { useRouter } from 'vue-router';
   
-  export default {
-    name: 'TableDep',
-    setup() {
-    //   const router = useRouter();
-      const departements = ref([
-        // ... your departments data
-      ]);
-  
-      // ... setup functions
-  
-      return {
-        departements,
-        // ... other setup functions
-      };
-    }
-  };
+export default {
+  name: 'TableDep',
+  setup() {
+    // Sample data, you would fetch this from a server or store
+    const departements = ref([
+      { id: 1, code: 'D001', nom: 'Ressources Humaines' },
+      { id: 2, code: 'D002', nom: 'Finances' },
+      // ... more departements
+    ]);
+
+    const editDepartement = (departement) => {
+      // Logic to handle editing a departement
+      console.log('Editing departement', departement);
+    };
+
+    const deleteDepartement = (id) => {
+      // Logic to handle deleting a departement
+      console.log('Deleting departement with id', id);
+    };
+
+    return {
+      departements,
+      editDepartement,
+      deleteDepartement
+    };
+  }
+};
   </script>
   
   <style scoped>
@@ -94,25 +103,24 @@
     cursor: pointer;
     border: none;
     border-radius: 0.25em;
-    background-color: #5c6bc0;
+    
     color: white;
   }
   
-  .btn.edit {
-    background-color: #ffca28; /* Yellow */
-  }
-  
-  .btn.delete {
-    background-color: #ef5350; /* Red */
+  h2{
+    text-align: center;
   }
   
   .btn.add {
-    background-color: #66bb6a; /* Green */
+    background-color: #9b59b6;
     color: white;
     text-decoration: none;
     padding: 0.5em 1em;
     margin: 1em 0;
     display: inline-block;
   }
+  .btn:hover {
+  background-color: #8e44ad;
+}
   </style>
   

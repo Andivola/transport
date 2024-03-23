@@ -3,10 +3,10 @@
     <h1 class="sidebar-header">Transport</h1>
     <nav class="nav-menu">
       <router-link class="nav-item" to="/trajet">Trajet</router-link>
-      <router-link class="nav-item" to="/">Employé</router-link>
-      <router-link class="nav-item" to="/voiture">Département</router-link>
+      <router-link class="nav-item" to="/employe">Employé</router-link>
+      <router-link class="nav-item" to="/">Département</router-link>
       <router-link class="nav-item" to="/voiture">Voiture</router-link>
-      <router-link class="nav-item" to="/voiture">Transporteur</router-link>
+      <router-link class="nav-item" to="/trans">Transporteur</router-link>
       <router-link class="nav-item" to="/voiture">Calendrier</router-link>
       <router-link class="nav-item" to="/voiture">Etat</router-link>
     </nav>
@@ -53,6 +53,6 @@ export default {
 }
 
 .nav-item:hover  {
-  background-color: #9b59b6;
+  background-color: #e49fff;
 }
 </style>
