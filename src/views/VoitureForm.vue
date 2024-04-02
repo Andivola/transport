@@ -1,15 +1,15 @@
 <template>
-    <TableVoiture/>
+    <VoitureView/>
   </template>
   
   <script >
-  import TableVoiture from '@/components/TableVoiture.vue';
+  import VoitureView from '@/components/VoitureView.vue';
   
   
   export default {
     name: 'VoitureForm',
     components: {
-      TableVoiture
+      VoitureView
     }
   }
   </script>

@@ -1,16 +1,17 @@
 <template>
-    <TableEmp/>
+    <EmployeView/>
   </template>
   
   <script >
-  import TableEmp from '@/components/TableEmp.vue';
+  import EmployeView from '@/components/EmployeView.vue';
   
   
   export default {
     name: 'EmployeForm',
     components: {
-        TableEmp
+      EmployeView
     }
   }
   </script>
+  
   

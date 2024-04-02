@@ -2,7 +2,7 @@
     <div class="employe-page">
       <div class="card">
         <form @submit.prevent="submitForm" class="card-body">
-          <h2 class="card-header">Informations de l'Employé</h2>
+          <h2 class="card-header">Employé information</h2>
           
           <div class="form-row">
             <label for="nom">Nom:</label>
@@ -123,20 +123,25 @@
 }
 
 .form-row {
-  
+  display: flex;
+    flex-wrap: wrap;
+    align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-label{
-  padding: 30px;
-}
-
-input[type="text"] {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 200px;
-}
+.form-row label {
+    flex-basis: 120px; /* Adjust the width as necessary */
+    padding-right: 10px; /* Ensure there's space between label and input */
+  }
+  
+  .form-row input[type="text"] {
+    flex: 1;
+    min-width: 120px; /* Adjust the minimum width as necessary */
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 0.5rem; /* Adds space between wrapped items */
+  }
 
 </style>

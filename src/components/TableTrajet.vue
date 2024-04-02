@@ -13,6 +13,7 @@
               <th>Heure de départ</th>
               <th>Heure d'arrivé</th>
               <th>Distance</th>
+              <th>Employés</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -27,6 +28,11 @@
               <td>{{ trajet.heureArrivee }}</td>
               <td>{{ trajet.distance }}</td>
               <td>
+              <!-- Assuming trajet.employes is an array of employee names -->
+                <span v-if="trajet.employes.length">{{ trajet.employes.join(', ') }}</span>
+                <span v-else>No Employees</span>
+              </td>
+              <td>
                 <button class="btn edit">✏️</button>
                 <button class="btn delete">🗑️</button>
               </td>
@@ -34,7 +40,7 @@
           </tbody>
         </table>
       </div>
-      <router-link to="/trajet/new" class="btn add">Ajouter +</router-link>
+      <router-link to="/trajform" class="btn add">Ajouter +</router-link>
     </div>
   </template>
   
@@ -45,10 +51,21 @@
     name: 'TableTrajet',
     setup() {
       const trajets = ref([
-        // Replace with your actual data fetching logic
-        { id: 1, typeTrajet: 'F', codeTrajet: 'T001', libelle: 'Trajet Fixe 1', lieuDepart: 'Point A', lieuArrivee: 'Point B', heureDepart: '08:00', heureArrivee: '10:00', distance: '120km' },
-        // ... more trajets
-      ]);
+      // Sample data, update with actual data fetching
+      { 
+        id: 1, 
+        typeTrajet: 'F', 
+        codeTrajet: 'T001', 
+        libelle: 'Trajet Fixe 1', 
+        lieuDepart: 'Point A', 
+        lieuArrivee: 'Point B', 
+        heureDepart: '08:00', 
+        heureArrivee: '10:00', 
+        distance: '120km', 
+        employes: ['John Doe', 'Jane Smith'] // Array of employee names
+      },
+      // ... other trajets
+    ]);
   
       // Placeholder methods for edit and delete actions
       const editTrajet = (trajet) => {

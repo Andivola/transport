@@ -30,7 +30,7 @@
           </tbody>
         </table>
       </div>
-      <router-link to="/transporteur/new" class="btn add">Ajouter +</router-link>
+      <router-link to="/transform" class="btn add">Ajouter +</router-link>
     </div>
   </template>
   

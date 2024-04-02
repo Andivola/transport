@@ -1,15 +1,15 @@
 <template>
-    <TableTrajet/>
+    <TrajetView/>
   </template>
   
   <script >
-  import TableTrajet from '@/components/TableTrajet.vue';
+  import TrajetView from '@/components/TrajetView.vue';
   
   
   export default {
     name: 'TrajetForm',
     components: {
-        TableTrajet
+      TrajetView
     }
   }
   </script>

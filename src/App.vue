@@ -30,3 +30,8 @@ export default {
   width: calc(100% - 250px); /* subtract sidebar width */
 }
 </style>
+<style>
+ body{
+  background-color: #f7f7f7f6;
+ }
+</style>

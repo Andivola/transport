@@ -32,7 +32,7 @@
           </tbody>
         </table>
       </div>
-      <router-link to="/voiture/new" class="btn add">Ajouter +</router-link>
+      <router-link to="/voitureform" class="btn add">Ajouter +</router-link>
     </div>
   </template>
   

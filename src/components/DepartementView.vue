@@ -14,7 +14,7 @@
         </div>
         <div class="form-actions">
           <button type="submit" class="btn">Enregistrer</button>
-          <button type="button" class="btn secondary">Afficher liste</button>
+          <button type="button" class="btn secondary" @click="$router.push('/')">Afficher liste</button>
         </div>
       </form>
     </div>
