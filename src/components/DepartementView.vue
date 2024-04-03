@@ -12,6 +12,7 @@
           <label for="nomDepartement">Nom Département:</label>
           <input type="text" id="nomDepartement" v-model="departement.nom" required>
         </div>
+          <input type="text" id="id" v-model="departement.id" hidden>
         <div class="form-actions">
           <button type="submit" class="btn">Enregistrer</button>
           <button type="button" class="btn secondary" @click="$router.push('/')">Afficher liste</button>
@@ -24,17 +25,27 @@
 <script>
 // import axios from 'axios';
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'DepartementView',
   setup() {
-    const departement = ref({
-      code: '',
-      nom: ''
-    });
+    const route = useRoute();
+
+    const departement = ref(route.params.id === 'new' 
+      ? {
+          code: '',
+          nom: ''
+        }
+      : getDepartment(route.params.id ?? -1));
 
     const submitForm = () => {
-      createDepartment(departement);
+      if (route.params.id === 'new') {
+        createDepartment(departement);
+      } else {
+        updateDepartment(departement);
+      }
+      
       window.location.reload();
     };
 
@@ -47,14 +58,36 @@ export default {
 
 function createDepartment(department) {
   const storedItems = localStorage.getItem("departements");
-      const departements = JSON.parse(storedItems) ?? [];
-      const maxId = departements?.reduce((max, obj) => {
-          return obj.id > max ? obj.id : max;
-      }, -Infinity) ?? 1;
-      departements.push({...department.value, id: maxId + 1});
-      localStorage.setItem("departements", JSON.stringify(departements));
-  return {...department.value, id: maxId + 1};
+  const departements = JSON.parse(storedItems) ?? [];
+  const maxId = departements.length === 0 ? 1 : departements?.reduce((max, obj) => {
+      return obj.id > max ? obj.id : max;
+  }, -Infinity);
 
+  departements.push({...department.value, id: maxId + 1});
+  localStorage.setItem("departements", JSON.stringify(departements));
+}
+
+function updateDepartment(department) {
+  const storedItems = localStorage.getItem("departements");
+  const departements = JSON.parse(storedItems) ?? [];
+  let index = departements.findIndex(obj => obj.id === department.value.id);
+
+  if (index !== -1) {
+    departements[index] = department.value;
+  }
+
+  localStorage.setItem("departements", JSON.stringify(departements));
+}
+
+function getDepartment(id) {
+  const storedItems = localStorage.getItem("departements");
+  const departments = JSON.parse(storedItems) ?? [];
+  const filteredDepartment = departments.find((department) => department.id === parseInt(id));
+
+  return filteredDepartment ? filteredDepartment : {
+      code: '',
+      nom: ''
+  };
 }
 </script>
 

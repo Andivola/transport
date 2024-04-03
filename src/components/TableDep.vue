@@ -15,14 +15,14 @@
             <td>{{ departement.code }}</td>
             <td>{{ departement.nom }}</td>
             <td>
-              <button  class="btn update" @click="$router.push('/departement')">✏️</button>
-              <button class="btn delete">🗑️</button>
+              <button  class="btn update" @click="$router.push('/departement/'+departement.id)">✏️</button>
+              <button class="btn delete" @click="deleteDepartement(departement.id)">🗑️</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <router-link to="/departement" class="btn add">Ajouter +</router-link>
+    <router-link to="/departement/new" class="btn add">Ajouter +</router-link>
   </div>
 </template>
 
@@ -37,15 +37,12 @@ export default {
     // Sample data, you would fetch this from a server or store
     const departements = ref(getDepartments());
 
-    const updateDepartement = (departement) => {
-      return [
-        departement
-      ];
+    const updateDepartement = () => {
     };
 
     const deleteDepartement = (id) => {
-      // Logic to handle deleting a departement
-      console.log('Deleting departement with id', id);
+      localStorage.setItem("departements", JSON.stringify(departements.value.filter((department) => department.id !== id)));
+      window.location.reload();
     };
 
     return {
@@ -60,6 +57,7 @@ function getDepartments() {
   // Load items from localStorage
   const storedDepartments = localStorage.getItem("departements");
   if (storedDepartments) {
+    console.log(storedDepartments);
     return JSON.parse(storedDepartments);
   }
 
