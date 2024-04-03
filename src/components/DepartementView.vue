@@ -35,6 +35,7 @@ export default {
 
     const submitForm = () => {
       createDepartment(departement);
+      window.location.reload();
     };
 
     return {
@@ -45,8 +46,15 @@ export default {
 };
 
 function createDepartment(department) {
-  return department;
-  // return axios.post('', department);
+  const storedItems = localStorage.getItem("departements");
+      const departements = JSON.parse(storedItems) ?? [];
+      const maxId = departements?.reduce((max, obj) => {
+          return obj.id > max ? obj.id : max;
+      }, -Infinity) ?? 1;
+      departements.push({...department.value, id: maxId + 1});
+      localStorage.setItem("departements", JSON.stringify(departements));
+  return {...department.value, id: maxId + 1};
+
 }
 </script>
 

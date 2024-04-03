@@ -57,11 +57,18 @@ export default {
 };
 
 function getDepartments() {
-  return [
-    { id: 1, code: 'D001', nom: 'Ressources Humaines' },
-    { id: 2, code: 'D002', nom: 'Finances' },
-    // ... more departements
-  ];
+  // Load items from localStorage
+  const storedDepartments = localStorage.getItem("departements");
+  if (storedDepartments) {
+    return JSON.parse(storedDepartments);
+  }
+
+  return [];
+  // return [
+  //   { id: 1, code: 'D001', nom: 'Ressources Humaines' },
+  //   { id: 2, code: 'D002', nom: 'Finances' },
+  //   // ... more departements
+  // ];
 }
 </script>
 
