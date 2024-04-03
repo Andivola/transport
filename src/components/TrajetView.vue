@@ -109,9 +109,7 @@ export default {
     ]);
 
     const submitForm = () => {
-      console.log('Form submitted:', trajet.value);
-      // Here you would typically handle the form submission,
-      // like sending the data to a server.
+      createTrajet(trajet)
     };
 
     // Function to generate date options
@@ -135,6 +133,10 @@ export default {
     };
   }
 };
+function createTrajet(trajet) {
+  return trajet;
+  // return axios.post('', department);
+}
 </script>
 
 <style scoped>
@@ -224,7 +226,7 @@ export default {
   background-color: #707b7c;
 }
 
-label{
+label {
   margin-left: 10px;
 }
 </style>

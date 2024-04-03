@@ -76,7 +76,10 @@ export default {
   setup() {
     // Sample data for table rows, replace with actual data fetching
     const etats = ref([
-      { id: 1, date: '2024-06-01', code: 'C001', libelle: 'Trajet 1', lieuDepart: 'Point A', lieuArrivee: 'Point B', heureDepart: '08:00', heureArrivee: '10:00', kmDep: '100', kmAr: '120', nbPassager: '4', situation: 'En cours' },
+      { id: 1, date: '2024-06-01', code: 'C001', libelle: 'Trajet 1', lieuDepart: 'Point A', lieuArrivee: 'Point B' },
+      // Add more etats as needed
+      { id: 1, date: '2024-06-02', code: 'C001', libelle: 'Trajet 1', lieuDepart: 'Point A', lieuArrivee: 'Point B' },
+      { id: 1, date: '2024-06-03', code: 'C001', libelle: 'Trajet 1', lieuDepart: 'Point A', lieuArrivee: 'Point B' },
       // Add more etats as needed
     ]);
 

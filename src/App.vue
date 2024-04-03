@@ -22,6 +22,7 @@ export default {
 #app {
   display: flex;
   background-color: #f7f7f7f6;
+  font-family: 'Roboto', sans-serif;
 }
 
 .content {

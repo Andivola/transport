@@ -3,7 +3,7 @@
     <div class="card">
       
       <form @submit.prevent="submitForm" class="card-body">
-        <h2 class="card-header">Département Information</h2>
+        <h2 class="card-header">Département Informations</h2>
         <div class="form-row">
           <label for="codeDepartement">Code Département:</label>
           <input type="text" id="codeDepartement" v-model="departement.code" required>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+// import axios from 'axios';
 import { ref } from 'vue';
 
 export default {
@@ -33,7 +34,7 @@ export default {
     });
 
     const submitForm = () => {
-      console.log('Form submitted:', departement.value);
+      createDepartment(departement);
     };
 
     return {
@@ -42,6 +43,11 @@ export default {
     };
   }
 };
+
+function createDepartment(department) {
+  return department;
+  // return axios.post('', department);
+}
 </script>
 
 <style scoped>

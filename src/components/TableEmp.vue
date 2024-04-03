@@ -1,81 +1,88 @@
 <template>
-    <div class="table-card">
-      <h2>Liste des Employés</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Matricule</th>
-              <th>Pseudo</th>
-              <th>Poste</th>
-              <th>Contact</th>
-              <th>Adresse</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="employe in employes" :key="employe.id">
-              <td>{{ employe.nom }}</td>
-              <td>{{ employe.prenom }}</td>
-              <td>{{ employe.matricule }}</td>
-              <td>{{ employe.pseudo }}</td>
-              <td>{{ employe.poste }}</td>
-              <td>{{ employe.contact }}</td>
-              <td>{{ employe.adresse }}</td>
-              <td>
-                <button class="btn edit">✏️</button>
-                <button class="btn delete">🗑️</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <router-link to="/empform" class="btn add">Ajouter +</router-link>
+  <div class="table-card">
+    <h2>Liste des Employés</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Matricule</th>
+            <th>Pseudo</th>
+            <th>Poste</th>
+            <th>Contact</th>
+            <th>Adresse</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="employe in employes" :key="employe.id">
+            <td>{{ employe.nom }}</td>
+            <td>{{ employe.prenom }}</td>
+            <td>{{ employe.matricule }}</td>
+            <td>{{ employe.pseudo }}</td>
+            <td>{{ employe.poste }}</td>
+            <td>{{ employe.contact }}</td>
+            <td>{{ employe.adresse }}</td>
+            <td>
+              <button class="btn update" @click="$router.push('/empform')">✏️</button>
+              <button class="btn delete">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </template>
-  
-  <script>
-  import { ref } from 'vue';
-  
-  export default {
-    name: 'TableEmploye',
-    setup() {
-      const employes = ref([
-        // Sample data, replace with your own
-        { id: 1, nom: 'Doe', prenom: 'John', matricule: '001', pseudo: 'johnd', poste: 'Developpeur', contact: '0123456789', adresse: '123 Rue Principale' },
-        // ... other employees
-      ]);
-  
-      // Placeholder methods for edit and delete actions
-      const editEmploye = (employe) => {
-        console.log('Edit:', employe);
-        // Implement edit logic
-      };
-  
-      const deleteEmploye = (id) => {
-        console.log('Delete ID:', id);
-        // Implement delete logic
-      };
-  
-      return {
-        employes,
-        editEmploye,
-        deleteEmploye
-      };
-    }
-  };
-  </script>
+    <router-link to="/empform" class="btn add">Ajouter +</router-link>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+
+export default {
+  name: 'TableEmploye',
+  setup() {
+    const employes = ref(getEmploye());
+
+    // Placeholder methods for edit and delete actions
+    const updateEmploye = (employe) => {
+      return{
+        employe
+      }
+    };
+
+    const deleteEmploye = (id) => {
+      console.log('Delete ID:', id);
+      // Implement delete logic
+    };
+
+    return {
+      employes,
+      updateEmploye,
+      deleteEmploye
+    };
+  }
+};
+function getEmploye() {
+  return [
+    // Sample data, replace with your own
+    { id: 1, nom: 'Doe', prenom: 'John', matricule: '001', pseudo: 'John', poste: 'Developpeur', contact: '0123456789', adresse: '123 Rue Principale' },
+      // ... other employees
+    { id: 2, nom: 'Smith', prenom: 'Jane', matricule: '002', pseudo: 'Jane', poste: 'Developpeur', contact: '0223456789', adresse: '546 Rue Principale' },
+      // ... other employees
+  ];
+}
+</script>
 
 <style scoped>
 .table-card {
-background: #FFFFFF;
-border-radius: 8px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-margin: 2rem;
-padding: 1rem;
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 2rem;
+  padding: 1rem;
 }
+
 /* Add your global table styling here */
 .table-container {
   padding: 1em;
@@ -91,7 +98,8 @@ table {
   margin-bottom: 1em;
 }
 
-th, td {
+th,
+td {
   text-align: left;
   padding: 0.5em;
   border-bottom: 1px solid #ddd;
@@ -111,11 +119,11 @@ tbody tr:nth-child(odd) {
   cursor: pointer;
   border: none;
   border-radius: 0.25em;
-  
+
   color: white;
 }
 
-h2{
+h2 {
   text-align: center;
 }
 
@@ -127,7 +135,8 @@ h2{
   margin: 1em 0;
   display: inline-block;
 }
+
 .btn:hover {
-background-color: #8e44ad;
+  background-color: #8e44ad;
 }
 </style>

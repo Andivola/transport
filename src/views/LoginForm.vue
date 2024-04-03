@@ -19,8 +19,8 @@
     name: 'LoginForm',
     data() {
       return {
-        username: 'admin',
-        password: 'admin',
+        username: '',
+        password: '',
         error: ''
       };
     },
