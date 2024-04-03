@@ -38,22 +38,22 @@ const routes = [
     component: () => import('../views/EtatForm.vue')
   },
   {
-    path: '/trajform',
+    path: '/trajform/:id',
     name: 'trajform',
     component: () => import('../views/TrajetForm.vue')
   },
   {
-    path: '/empform',
+    path: '/empform/:id',
     name: 'empform',
     component: () => import('../views/EmployeForm.vue')
   },
   {
-    path: '/transform',
+    path: '/transform/:id',
     name: 'transform',
     component: () => import('../views/TransForm.vue')
   },
   {
-    path: '/voitureform',
+    path: '/voitureform/:id',
     name: 'voitureform',
     component: () => import('../views/VoitureForm.vue')
   },

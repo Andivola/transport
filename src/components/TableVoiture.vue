@@ -5,6 +5,7 @@
       <table>
         <thead>
           <tr>
+            <th>Code Transporteur</th>
             <th>Immatriculation</th>
             <th>Conducteur</th>
             <th>Contact</th>
@@ -17,6 +18,7 @@
         </thead>
         <tbody>
           <tr v-for="voiture in voitures" :key="voiture.id">
+            <td>{{ voiture.code }}</td>
             <td>{{ voiture.immatriculation }}</td>
             <td>{{ voiture.conducteur }}</td>
             <td>{{ voiture.contactConducteur }}</td>
@@ -25,14 +27,14 @@
             <td>{{ voiture.marque }}</td>
             <td>{{ voiture.capacite }}</td>
             <td>
-              <button class="btn update">✏️</button>
-              <button class="btn delete">🗑️</button>
+              <button class="btn update" @click="$router.push('/voiture/'+voiture.id)">✏️</button>
+              <button class="btn delete" @click="deleteVoiture(voiture.id)">🗑️</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <router-link to="/voitureform" class="btn add">Ajouter +</router-link>
+    <router-link to="/voitureform/new" class="btn add">Ajouter +</router-link>
   </div>
 </template>
 
@@ -43,19 +45,17 @@ export default {
   name: 'TableVoiture',
   setup() {
     // Sample data, you would fetch this from a server or store
-    const voitures = ref(fetchVoiture());
+    const voitures = ref(getVoiture());
 
     // Function to edit transporteur (placeholder for actual implementation)
-    const updateVoiture = (voiture) => {
-      return {
-        voiture
-      }
+    const updateVoiture = () => {
+      
     };
 
     // Function to delete transporteur (placeholder for actual implementation)
     const deleteVoiture = (id) => {
-      console.log('Deleting ID:', id);
-      // Implement delete logic
+      localStorage.setItem("voitures", JSON.stringify(voitures.value.filter((voiture) => voiture.id !== id)));
+      window.location.reload();
     };
 
     return {
@@ -66,31 +66,15 @@ export default {
     };
   }
 };
-function fetchVoiture() {
-  return [
-    // ... sample vehicle data
-    {
-      id: 1,
-      immatriculation: 'XX-123-YY',
-      conducteur: 'John Doe',
-      contactConducteur: '123456789',
-      aide: 'Jane Doe',
-      contactAide: '987654321',
-      marque: 'Mazda',
-      capacite: '20'
-    },
-    {
-      id: 2,
-      immatriculation: 'XX-553-YY',
-      conducteur: 'Rakoto',
-      contactConducteur: '1245656789',
-      aide: 'Ranto',
-      contactAide: '987896321',
-      marque: 'Mercedes',
-      capacite: '22'
-    },
-    // ... more vehicles
-  ];
+function getVoiture() {
+ // Load items from localStorage
+ const storedVoitures = localStorage.getItem("voitures");
+  if (storedVoitures) {
+    console.log(storedVoitures);
+    return JSON.parse(storedVoitures);
+  }
+
+  return [];
 }
 </script>
 

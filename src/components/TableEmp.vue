@@ -11,6 +11,7 @@
             <th>Pseudo</th>
             <th>Poste</th>
             <th>Contact</th>
+            <th>Code Département</th>
             <th>Adresse</th>
             <th>Actions</th>
           </tr>
@@ -23,16 +24,17 @@
             <td>{{ employe.pseudo }}</td>
             <td>{{ employe.poste }}</td>
             <td>{{ employe.contact }}</td>
+            <td>{{ employe.codeDepartement }}</td>
             <td>{{ employe.adresse }}</td>
             <td>
-              <button class="btn update" @click="$router.push('/empform')">✏️</button>
-              <button class="btn delete">🗑️</button>
+              <button class="btn update" @click="$router.push('/empform/'+employe.id)">✏️</button>
+              <button class="btn delete" @click="deleteEmploye(employe.id)">🗑️</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <router-link to="/empform" class="btn add">Ajouter +</router-link>
+    <router-link to="/empform/new" class="btn add">Ajouter +</router-link>
   </div>
 </template>
 
@@ -45,15 +47,13 @@ export default {
     const employes = ref(getEmploye());
 
     // Placeholder methods for edit and delete actions
-    const updateEmploye = (employe) => {
-      return{
-        employe
-      }
+    const updateEmploye = () => {
+      
     };
 
     const deleteEmploye = (id) => {
-      console.log('Delete ID:', id);
-      // Implement delete logic
+      localStorage.setItem("employes", JSON.stringify(employes.value.filter((employe) => employe.id !== id)));
+      window.location.reload();
     };
 
     return {
@@ -64,13 +64,14 @@ export default {
   }
 };
 function getEmploye() {
-  return [
-    // Sample data, replace with your own
-    { id: 1, nom: 'Doe', prenom: 'John', matricule: '001', pseudo: 'John', poste: 'Developpeur', contact: '0123456789', adresse: '123 Rue Principale' },
-      // ... other employees
-    { id: 2, nom: 'Smith', prenom: 'Jane', matricule: '002', pseudo: 'Jane', poste: 'Developpeur', contact: '0223456789', adresse: '546 Rue Principale' },
-      // ... other employees
-  ];
+  // Load items from localStorage
+  const storedEmployes = localStorage.getItem("employes");
+  if (storedEmployes) {
+    console.log(storedEmployes);
+    return JSON.parse(storedEmployes);
+  }
+
+  return [];
 }
 </script>
 

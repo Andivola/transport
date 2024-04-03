@@ -73,7 +73,7 @@
 
         <div class="form-actions">
           <button type="submit" class="btn">Enregistrer</button>
-          <button type="button" class="btn secondary">Afficher liste</button>
+          <button type="button" class="btn secondary" @click="$router.push('/trajet')">Afficher liste</button>
         </div>
       </form>
     </div>
@@ -82,11 +82,16 @@
 
 <script>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'TrajetView',
   setup() {
-    const trajet = ref({
+    const route = useRoute();
+    const trajet = ref(route.params.id === 'new' 
+      ?{
+      dateDebut: '',
+      dateFin: '',
       typeTrajet: '',
       codeTrajet: '',
       libelle: '',
@@ -96,7 +101,9 @@ export default {
       heureArrivee: '',
       distance: '',
       employes: []
-    });
+    }
+    : getTrajet(route.params.id ?? -1));
+
     const dates = ref(getNextDates()); // Function to generate date options
     const selectedDateDebut = ref('');
     const selectedDateFin = ref('');
@@ -109,7 +116,13 @@ export default {
     ]);
 
     const submitForm = () => {
-      createTrajet(trajet)
+      if (route.params.id === 'new') {
+        createTrajet(trajet);
+      } else {
+        updateTrajet(trajet);
+      }
+      
+      window.location.reload();
     };
 
     // Function to generate date options
@@ -134,8 +147,46 @@ export default {
   }
 };
 function createTrajet(trajet) {
-  return trajet;
-  // return axios.post('', department);
+  const storedItems = localStorage.getItem("trajets");
+  const trajets = JSON.parse(storedItems) ?? [];
+  const maxId = trajets.length === 0 ? 1 : trajets?.reduce((max, obj) => {
+      return obj.id > max ? obj.id : max;
+  }, -Infinity);
+
+  trajets.push({...trajet.value, id: maxId + 1});
+  localStorage.setItem("trajets", JSON.stringify(trajets));
+}
+
+function updateTrajet(trajet) {
+  const storedItems = localStorage.getItem("trajets");
+  const trajets = JSON.parse(storedItems) ?? [];
+  let index = trajets.findIndex(obj => obj.id === trajet.value.id);
+
+  if (index !== -1) {
+    trajets[index] = trajet.value;
+  }
+
+  localStorage.setItem("trajets", JSON.stringify(trajets));
+}
+
+function getTrajet(id) {
+  const storedItems = localStorage.getItem("trajets");
+  const trajets = JSON.parse(storedItems) ?? [];
+  const filteredTrajet = trajets.find((trajet) => trajet.id === parseInt(id));
+
+  return filteredTrajet ? filteredTrajet : {
+      dateDebut: '',
+      dateFin: '',
+      typeTrajet: '',
+      codeTrajet: '',
+      libelle: '',
+      lieuDepart: '',
+      lieuArrivee: '',
+      heureDepart: '',
+      heureArrivee: '',
+      distance: '',
+      employes: []
+  };
 }
 </script>
 

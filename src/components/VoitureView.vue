@@ -5,6 +5,11 @@
         <h2 class="card-header">Voiture Informations</h2>
 
         <div class="form-row">
+          <label for="code">Code Transporteur:</label>
+          <input type="text" id="code" v-model="voiture.immatriculation" required>
+        </div>
+
+        <div class="form-row">
           <label for="immatriculation">Immatriculation:</label>
           <input type="text" id="immatriculation" v-model="voiture.immatriculation" required>
         </div>
@@ -32,7 +37,7 @@
 
         <div class="form-actions">
           <button type="submit" class="btn">Enregistrer</button>
-          <button type="button" class="btn secondary">Afficher liste</button>
+          <button type="button" class="btn secondary" @click="$router.push('/voiture')">Afficher liste</button>
         </div>
       </form>
     </div>
@@ -41,11 +46,15 @@
 
 <script>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'VoitureView',
   setup() {
-    const voiture = ref({
+    const route = useRoute();
+    const voiture = ref(route.params.id === 'new' 
+      ? {
+      code: '',
       immatriculation: '',
       conducteur: '',
       contactConducteur: '',
@@ -53,10 +62,17 @@ export default {
       contactAide: '',
       marque: '',
       capacite: ''
-    });
+    }
+    : getVoiture(route.params.id ?? -1));
 
     const submitForm = () => {
-      createVoiture(voiture)
+      if (route.params.id === 'new') {
+        createVoiture(voiture);
+      } else {
+        updateVoiture(voiture);
+      }
+      
+      window.location.reload();
     };
 
     return {
@@ -66,8 +82,43 @@ export default {
   }
 };
 function createVoiture(voiture) {
-  return voiture;
-  // return axios.post('', department);
+  const storedItems = localStorage.getItem("voitures");
+  const voitures = JSON.parse(storedItems) ?? [];
+  const maxId = voitures.length === 0 ? 1 : voitures?.reduce((max, obj) => {
+      return obj.id > max ? obj.id : max;
+  }, -Infinity);
+
+  voitures.push({...voiture.value, id: maxId + 1});
+  localStorage.setItem("voitures", JSON.stringify(voitures));
+}
+
+function updateVoiture(voiture) {
+  const storedItems = localStorage.getItem("voitures");
+  const voitures = JSON.parse(storedItems) ?? [];
+  let index = voitures.findIndex(obj => obj.id === voiture.value.id);
+
+  if (index !== -1) {
+    voitures[index] = voiture.value;
+  }
+
+  localStorage.setItem("voitures", JSON.stringify(voitures));
+}
+
+function getVoiture(id) {
+  const storedItems = localStorage.getItem("voitures");
+  const voitures = JSON.parse(storedItems) ?? [];
+  const filteredVoiture = voitures.find((voiture) => voiture.id === parseInt(id));
+
+  return filteredVoiture ? filteredVoiture : {
+    code: '',
+    immatriculation: '',
+      conducteur: '',
+      contactConducteur: '',
+      aide: '',
+      contactAide: '',
+      marque: '',
+      capacite: ''
+  };
 }
 </script>
 

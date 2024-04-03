@@ -26,13 +26,18 @@
         </div>
 
         <div class="form-row">
+          <label for="codeDepartement">Code Département:</label>
+          <input type="text" id="codeDepartement" v-model="employe.codeDepartement" required>
+        </div>
+        
+        <div class="form-row">
           <label for="adresse">Adresse:</label>
           <input type="text" id="adresse" v-model="employe.adresse" required>
         </div>
 
         <div class="form-actions">
           <button type="submit" class="btn">Enregistrer</button>
-          <button type="button" class="btn secondary">Afficher liste</button>
+          <button type="button" class="btn secondary" @click="$router.push('/employe')">Afficher liste</button>
         </div>
       </form>
     </div>
@@ -41,22 +46,33 @@
 
 <script>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'EmployeView',
   setup() {
-    const employe = ref({
+    const route = useRoute();
+    const employe = ref(route.params.id === 'new' 
+      ?{
       nom: '',
       prenom: '',
       matricule: '',
       pseudo: '',
       poste: '',
       contact: '',
+      codeDepartement:'',
       adresse: ''
-    });
+    }
+    : getEmploye(route.params.id ?? -1));
 
     const submitForm = () => {
-      createEmploye(employe);
+      if (route.params.id === 'new') {
+        createEmploye(employe);
+      } else {
+        updateEmploye(employe);
+      }
+      
+      window.location.reload();
     };
 
     return {
@@ -66,8 +82,43 @@ export default {
   }
 };
 function createEmploye(employe) {
-  return employe;
-  // return axios.post('', department);
+  const storedItems = localStorage.getItem("employes");
+  const employes = JSON.parse(storedItems) ?? [];
+  const maxId = employes.length === 0 ? 1 : employes?.reduce((max, obj) => {
+      return obj.id > max ? obj.id : max;
+  }, -Infinity);
+
+  employes.push({...employe.value, id: maxId + 1});
+  localStorage.setItem("employes", JSON.stringify(employes));
+}
+
+function updateEmploye(employe) {
+  const storedItems = localStorage.getItem("employes");
+  const employes = JSON.parse(storedItems) ?? [];
+  let index = employes.findIndex(obj => obj.id === employe.value.id);
+
+  if (index !== -1) {
+    employes[index] = employe.value;
+  }
+
+  localStorage.setItem("employes", JSON.stringify(employes));
+}
+
+function getEmploye(id) {
+  const storedItems = localStorage.getItem("employes");
+  const employes = JSON.parse(storedItems) ?? [];
+  const filteredEmploye = employes.find((employe) => employe.id === parseInt(id));
+
+  return filteredEmploye ? filteredEmploye : {
+      nom: '',
+      prenom: '',
+      matricule: '',
+      pseudo: '',
+      poste: '',
+      contact: '',
+      codeDepartement:'',
+      adresse: ''
+  };
 }
 </script>
 

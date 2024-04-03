@@ -5,6 +5,8 @@
       <table>
         <thead>
           <tr>
+            <th>Date début</th>
+            <th>Date fin</th>
             <th>Type Trajet</th>
             <th>Code Trajet</th>
             <th>Libellé</th>
@@ -19,6 +21,8 @@
         </thead>
         <tbody>
           <tr v-for="trajet in trajets" :key="trajet.id">
+            <td>{{ trajet.dateDebut }}</td>
+            <td>{{ trajet.dateFin }}</td>
             <td>{{ trajet.typeTrajet }}</td>
             <td>{{ trajet.codeTrajet }}</td>
             <td>{{ trajet.libelle }}</td>
@@ -33,14 +37,14 @@
               <span v-else>No Employees</span>
             </td>
             <td>
-              <button class="btn update" @click="$router.push('/trajform')">✏️</button>
-              <button class="btn delete">🗑️</button>
+              <button class="btn update" @click="$router.push('/trajform/'+trajet.id)">✏️</button>
+              <button class="btn delete" @click="deleteTrajet(trajet.id)">🗑️</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <router-link to="/trajform" class="btn add">Ajouter +</router-link>
+    <router-link to="/trajform/new" class="btn add">Ajouter +</router-link>
   </div>
 </template>
 
@@ -50,18 +54,16 @@ import { ref } from 'vue';
 export default {
   name: 'TableTrajet',
   setup() {
-    const trajets = ref(fetchTrajet());
+    const trajets = ref(getTrajet());
 
     // Placeholder methods for edit and delete actions
-    const updateTrajet = (trajet) => {
-      return{
-        trajet
-      }
+    const updateTrajet = () => {
+
     };
 
     const deleteTrajet = (id) => {
-      console.log('Delete ID:', id);
-      // Implement delete logic
+      localStorage.setItem("trajets", JSON.stringify(trajets.value.filter((trajet) => trajet.id !== id)));
+      window.location.reload();
     };
 
     return {
@@ -71,47 +73,15 @@ export default {
     };
   }
 };
-function fetchTrajet() {
-  return [
-     // Sample data, update with actual data fetching
-     {
-        id: 1,
-        typeTrajet: 'F',
-        codeTrajet: 'T001',
-        libelle: 'Trajet Fixe 1',
-        lieuDepart: 'Point A',
-        lieuArrivee: 'Point B',
-        heureDepart: '08:00',
-        heureArrivee: '10:00',
-        distance: '20km',
-        employes: ['John Doe'] // Array of employee names
-      },
-      {
-        id: 2,
-        typeTrajet: 'F',
-        codeTrajet: 'T001',
-        libelle: 'Trajet Fixe 1',
-        lieuDepart: 'Point A',
-        lieuArrivee: 'Point B',
-        heureDepart: '08:00',
-        heureArrivee: '10:00',
-        distance: '20km',
-        employes: ['Jane Smith'] // Array of employee names
-      },
-      {
-        id: 3,
-        typeTrajet: 'V',
-        codeTrajet: 'T002',
-        libelle: 'Trajet Variable 1',
-        lieuDepart: 'Point c',
-        lieuArrivee: 'Point d',
-        heureDepart: '08:00',
-        heureArrivee: '10:00',
-        distance: '10km',
-        employes: ['Tom'] // Array of employee names
-      },
-      // ... other trajets
-  ];
+function getTrajet() {
+  // Load items from localStorage
+  const storedTrajets = localStorage.getItem("trajets");
+  if (storedTrajets) {
+    console.log(storedTrajets);
+    return JSON.parse(storedTrajets);
+  }
+
+  return [];
 }
 </script>
 

@@ -25,7 +25,7 @@
         </div>
         <div class="form-actions">
           <button type="submit" class="btn">Enregistrer</button>
-          <button type="button" class="btn secondary">Afficher liste</button>
+          <button type="button" class="btn secondary" @click="$router.push('/transport')">Afficher liste</button>
         </div>
       </form>
     </div>
@@ -34,21 +34,31 @@
 
 <script>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'TransporteurView',
   setup() {
-    const transporteur = ref({
+    const route = useRoute();
+    const transporteur = ref(route.params.id === 'new' 
+      ?{
       code: '',
       raisonSociale: '',
       contact: '',
       adresse: '',
       nif: '',
       stat: ''
-    });
+    }
+    : getTransporteur(route.params.id ?? -1));
 
     const submitForm = () => {
-      createTransporteur(transporteur)
+      if (route.params.id === 'new') {
+        createTransporteur(transporteur);
+      } else {
+        updateTransporteur(transporteur);
+      }
+      
+      window.location.reload();
     };
 
     return {
@@ -58,8 +68,40 @@ export default {
   }
 };
 function createTransporteur(transporteur) {
-  return transporteur;
-  // return axios.post('', department);
+  const storedItems = localStorage.getItem("transporteurs");
+  const transporteurs = JSON.parse(storedItems) ?? [];
+  const maxId = transporteurs.length === 0 ? 1 : transporteurs?.reduce((max, obj) => {
+      return obj.id > max ? obj.id : max;
+  }, -Infinity);
+
+  transporteurs.push({...transporteur.value, id: maxId + 1});
+  localStorage.setItem("transporteurs", JSON.stringify(transporteurs));
+}
+function updateTransporteur(transporteur) {
+  const storedItems = localStorage.getItem("transporteurs");
+  const transporteurs = JSON.parse(storedItems) ?? [];
+  let index = transporteurs.findIndex(obj => obj.id === transporteur.value.id);
+
+  if (index !== -1) {
+    transporteurs[index] = transporteur.value;
+  }
+
+  localStorage.setItem("transporteurs", JSON.stringify(transporteurs));
+}
+
+function getTransporteur(id) {
+  const storedItems = localStorage.getItem("transporteurs");
+  const transporteurs = JSON.parse(storedItems) ?? [];
+  const filteredTransporteur = transporteurs.find((transporteur) => transporteur.id === parseInt(id));
+
+  return filteredTransporteur ? filteredTransporteur : {
+      code: '',
+      raisonSociale: '',
+      contact: '',
+      adresse: '',
+      nif: '',
+      stat: ''
+  };
 }
 </script>
 
