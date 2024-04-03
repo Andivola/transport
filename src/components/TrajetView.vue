@@ -6,12 +6,12 @@
       <form @submit.prevent="submitForm" class="card-body">
         <div class="form-row together">
           <label for="dateDebut">Trajet du:</label>
-          <select v-model="selectedDateDebut" id="dateDebut" required>
-            <option v-for="date in dates" :key="date">{{ date }}</option>
+          <select v-model="trajet.dateDebut" id="dateDebut" required>
+            <option v-for="date in dates" :key="date" :value="date">{{ date }}</option>
           </select>
           <label for="dateFin">au:</label>
-          <select v-model="selectedDateFin" id="dateFin" required>
-            <option v-for="date in dates" :key="date">{{ date }}</option>
+          <select v-model="trajet.dateFin" id="dateFin" required>
+            <option v-for="date in dates" :key="date" :value="date">{{ date }}</option>
           </select>
         </div>
 
@@ -64,8 +64,9 @@
 
         <div class="form-row">
           <label for="employes">Employés:</label>
+          
           <select id="employes" v-model="trajet.employes" multiple>
-            <option v-for="employe in employes" :key="employe.id" :value="employe.id">
+            <option v-for="employe in employes" :key="employe.id" :value="employe.pseudo">
               {{ employe.nom }} {{ employe.prenom }}
             </option>
           </select>
@@ -108,12 +109,7 @@ export default {
     const selectedDateDebut = ref('');
     const selectedDateFin = ref('');
 
-    const employes = ref([
-      // This should be fetched from your employee data source
-      { id: 1, nom: 'Doe', prenom: 'John' },
-      { id: 2, nom: 'Smith', prenom: 'Jane' }
-      // Add more employees as needed
-    ]);
+    const employes = ref(getEmployees());
 
     const submitForm = () => {
       if (route.params.id === 'new') {
@@ -187,6 +183,13 @@ function getTrajet(id) {
       distance: '',
       employes: []
   };
+}
+
+function getEmployees() {
+  const storedItems = localStorage.getItem("employes");
+  const employees = JSON.parse(storedItems) ?? [];
+
+  return employees;
 }
 </script>
 

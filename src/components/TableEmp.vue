@@ -67,7 +67,6 @@ function getEmploye() {
   // Load items from localStorage
   const storedEmployes = localStorage.getItem("employes");
   if (storedEmployes) {
-    console.log(storedEmployes);
     return JSON.parse(storedEmployes);
   }
 

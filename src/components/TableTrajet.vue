@@ -32,9 +32,9 @@
             <td>{{ trajet.heureArrivee }}</td>
             <td>{{ trajet.distance }}</td>
             <td>
-              <!-- Assuming trajet.employes is an array of employee names -->
-              <span v-if="trajet.employes.length">{{ trajet.employes.join(', ') }}</span>
-              <span v-else>No Employees</span>
+              <span v-if="trajet.employes.length" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <span v-for="employees in trajet.employes" :key="employees">{{ employees }}</span></span>
+              <span v-else>Aucun</span>
             </td>
             <td>
               <button class="btn update" @click="$router.push('/trajform/'+trajet.id)">✏️</button>
@@ -77,7 +77,6 @@ function getTrajet() {
   // Load items from localStorage
   const storedTrajets = localStorage.getItem("trajets");
   if (storedTrajets) {
-    console.log(storedTrajets);
     return JSON.parse(storedTrajets);
   }
 

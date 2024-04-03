@@ -65,7 +65,6 @@ function getTransporteur() {
   // Load items from localStorage
   const storedTransporteurs = localStorage.getItem("transporteurs");
   if (storedTransporteurs) {
-    console.log(storedTransporteurs);
     return JSON.parse(storedTransporteurs);
   }
 

@@ -25,9 +25,11 @@
           <input type="text" id="contact" v-model="employe.contact" required>
         </div>
 
-        <div class="form-row">
+        <div style="display: flex; gap: 16px; margin: 8px 0;">
           <label for="codeDepartement">Code Département:</label>
-          <input type="text" id="codeDepartement" v-model="employe.codeDepartement" required>
+          <select style="flex: 1; height: 2rem;" id="codeDepartement" v-model="employe.codeDepartement" required>
+            <option v-for="department in getDepartments()" :key="department.code" :value="department.code">{{ department.code }}</option>
+          </select>
         </div>
         
         <div class="form-row">
@@ -75,9 +77,17 @@ export default {
       window.location.reload();
     };
 
+    const getDepartments = () => {
+      const storedItems = localStorage.getItem("departements");
+      const departments = JSON.parse(storedItems) ?? [];
+
+      return departments;
+    };
+
     return {
       employe,
-      submitForm
+      submitForm,
+      getDepartments,
     };
   }
 };

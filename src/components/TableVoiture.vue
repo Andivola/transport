@@ -70,7 +70,6 @@ function getVoiture() {
  // Load items from localStorage
  const storedVoitures = localStorage.getItem("voitures");
   if (storedVoitures) {
-    console.log(storedVoitures);
     return JSON.parse(storedVoitures);
   }
 

@@ -57,7 +57,6 @@ function getDepartments() {
   // Load items from localStorage
   const storedDepartments = localStorage.getItem("departements");
   if (storedDepartments) {
-    console.log(storedDepartments);
     return JSON.parse(storedDepartments);
   }
 
