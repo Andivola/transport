@@ -27,9 +27,13 @@
 
         </div>
 
-        <div class="form-row">
+        <div style="display: flex; gap: 16px; margin: 8px 0;">
           <label for="voiture">Voiture:</label>
-          <input type="text" id="voiture" v-model="trajet.voiture" required>
+          <select style="flex: 1; height: 2rem;" id="code" v-model="trajet.voiture" required>
+            <option v-for="voiture in getVoitures()" :key="voiture.immatriculation" :value="voiture.immatriculation">
+              {{ voiture.immatriculation }}
+            </option>
+          </select>
         </div>
 
         <div class="form-row">
@@ -141,6 +145,13 @@ export default {
       window.location.reload();
     };
 
+    const getVoitures = () => {
+      const storedItems = localStorage.getItem("voitures");
+      const departments = JSON.parse(storedItems) ?? [];
+
+      return departments;
+    };
+
 
     return {
       dates,
@@ -149,6 +160,7 @@ export default {
       trajet,
       employes,
       submitForm,
+      getVoitures,
     };
   }
 };

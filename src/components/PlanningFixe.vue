@@ -42,12 +42,13 @@
   <script>
   import { ref, computed } from 'vue';
   
+  const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   export default {
     name: 'PlanningFixe',
     setup() {
       const weeks = [1, 2, 3, 4, 5]; // Example weeks
-      const selectedWeek = ref('');
-      const trajets = ref(getTrajets()); // Fetch trajets from local storage or API
+      const selectedWeek = ref(1);
+      const planningTrajets = ref(getPlanningTrajets()); // Fetch trajets from local storage or API
   
       const showWeek = () => {
         // Logic to filter trajets based on selectedWeek
@@ -57,28 +58,47 @@
       // Computed property to filter trajets based on selectedWeek
       const filteredTrajets = computed(() => {
         if (!selectedWeek.value) return [];
-        return trajets.value.filter(trajet => trajet.week === selectedWeek.value);
+        return planningTrajets.value;
       });
   
       return {
         weeks,
         selectedWeek,
         filteredTrajets,
-        showWeek
+        showWeek,
       };
     }
   };
   
-  function getTrajets() {
-    // Example function to fetch trajets from local storage or API
-    return [
-      { id: 1, date: '2024-04-01', codeTrajet: 'TR001', voiture: 'Car1', libelle: 'Trajet 1', lieuDepart: 'Paris', lieuArrivee: 'Lyon', week: 1 },
-      { id: 2, date: '2024-04-03', codeTrajet: 'TR002', voiture: 'Car2', libelle: 'Trajet 2', lieuDepart: 'Lyon', lieuArrivee: 'Marseille', week: 1 },
-      { id: 3, date: '2024-04-10', codeTrajet: 'TR003', voiture: 'Car3', libelle: 'Trajet 3', lieuDepart: 'Marseille', lieuArrivee: 'Nice', week: 2 },
-      { id: 4, date: '2024-04-15', codeTrajet: 'TR004', voiture: 'Car4', libelle: 'Trajet 4', lieuDepart: 'Nice', lieuArrivee: 'Toulouse', week: 2 },
-      // Add more trajets as needed
-    ];
+  function getPlanningTrajets() {
+    const trajets = getTrajets();
+    let plannings = [];
+    for (const trajet of trajets) {
+      const start = weekDays.findIndex(day => trajet.dateDebut === day);
+      const end = weekDays.findIndex(day => trajet.dateFin === day);
+
+      for (let index = start; index <= end; index++) {
+        plannings.push({
+          ...trajet,
+          date: weekDays[index],
+        });
+      }
+
+    }
+
+    return plannings;
   }
+
+  function getTrajets() {
+    // Load items from localStorage
+    const storedTrajets = localStorage.getItem("trajets");
+    if (storedTrajets) {
+      return JSON.parse(storedTrajets);
+    }
+
+    return [];
+  }
+
   </script>
   
   <style scoped>

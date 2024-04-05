@@ -4,9 +4,13 @@
       <form @submit.prevent="submitForm" class="card-body">
         <h2 class="card-header">Voiture Informations</h2>
 
-        <div class="form-row">
+        <div style="display: flex; gap: 16px; margin: 8px 0;">
           <label for="code">Code Transporteur:</label>
-          <input type="text" id="code" v-model="voiture.immatriculation" required>
+          <select style="flex: 1; height: 2rem;" id="code" v-model="voiture.code" required>
+            <option v-for="transporteur in getTransporteurs()" :key="transporteur.code" :value="transporteur.code">
+              {{ transporteur.code }}
+            </option>
+          </select>
         </div>
 
         <div class="form-row">
@@ -75,9 +79,17 @@ export default {
       window.location.reload();
     };
 
+    const getTransporteurs = () => {
+      const storedItems = localStorage.getItem("transporteurs");
+      const departments = JSON.parse(storedItems) ?? [];
+
+      return departments;
+    };
+
     return {
       voiture,
-      submitForm
+      submitForm,
+      getTransporteurs,
     };
   }
 };
