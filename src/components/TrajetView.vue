@@ -28,6 +28,11 @@
         </div>
 
         <div class="form-row">
+          <label for="voiture">Voiture:</label>
+          <input type="text" id="voiture" v-model="trajet.voiture" required>
+        </div>
+
+        <div class="form-row">
           <label for="libelle">Libellé:</label>
           <input type="text" id="libelle" v-model="trajet.libelle" required>
         </div>
@@ -64,10 +69,10 @@
 
         <div class="form-row">
           <label for="employes">Employés:</label>
-          
+
           <select id="employes" v-model="trajet.employes" multiple>
             <option v-for="employe in employes" :key="employe.id" :value="employe.pseudo">
-              {{ employe.nom }} {{ employe.prenom }}
+              {{ employe.pseudo }}
             </option>
           </select>
         </div>
@@ -82,30 +87,45 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default {
   name: 'TrajetView',
   setup() {
     const route = useRoute();
-    const trajet = ref(route.params.id === 'new' 
-      ?{
-      dateDebut: '',
-      dateFin: '',
-      typeTrajet: '',
-      codeTrajet: '',
-      libelle: '',
-      lieuDepart: '',
-      lieuArrivee: '',
-      heureDepart: '',
-      heureArrivee: '',
-      distance: '',
-      employes: []
-    }
-    : getTrajet(route.params.id ?? -1));
+    const trajet = ref(route.params.id === 'new'
+      ? {
+        dateDebut: '',
+        dateFin: '',
+        typeTrajet: '',
+        codeTrajet: '',
+        voiture: '',
+        libelle: '',
+        lieuDepart: '',
+        lieuArrivee: '',
+        heureDepart: '',
+        heureArrivee: '',
+        distance: '',
+        employes: []
+      }
+      : getTrajet(route.params.id ?? -1));
 
-    const dates = ref(getNextDates()); // Function to generate date options
+    const calendarDays = [
+      'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
+    ];
+
+    const dates = computed(() => {
+      const today = new Date();
+      const days = [];
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(today.getTime() + i * 24 * 60 * 60 * 1000);
+        const dayName = calendarDays[date.getDay()];
+        days.push(dayName);
+      }
+      return days;
+    });
+
     const selectedDateDebut = ref('');
     const selectedDateFin = ref('');
 
@@ -117,20 +137,10 @@ export default {
       } else {
         updateTrajet(trajet);
       }
-      
+
       window.location.reload();
     };
 
-    // Function to generate date options
-    function getNextDates() {
-      const today = new Date();
-      const dates = [];
-      for (let i = 0; i < 10; i++) {
-        const date = new Date(today.getTime() + i * 24 * 60 * 60 * 1000);
-        dates.push(date.toISOString().split('T')[0]);
-      }
-      return dates;
-    }
 
     return {
       dates,
@@ -146,10 +156,10 @@ function createTrajet(trajet) {
   const storedItems = localStorage.getItem("trajets");
   const trajets = JSON.parse(storedItems) ?? [];
   const maxId = trajets.length === 0 ? 1 : trajets?.reduce((max, obj) => {
-      return obj.id > max ? obj.id : max;
+    return obj.id > max ? obj.id : max;
   }, -Infinity);
 
-  trajets.push({...trajet.value, id: maxId + 1});
+  trajets.push({ ...trajet.value, id: maxId + 1 });
   localStorage.setItem("trajets", JSON.stringify(trajets));
 }
 
@@ -171,17 +181,18 @@ function getTrajet(id) {
   const filteredTrajet = trajets.find((trajet) => trajet.id === parseInt(id));
 
   return filteredTrajet ? filteredTrajet : {
-      dateDebut: '',
-      dateFin: '',
-      typeTrajet: '',
-      codeTrajet: '',
-      libelle: '',
-      lieuDepart: '',
-      lieuArrivee: '',
-      heureDepart: '',
-      heureArrivee: '',
-      distance: '',
-      employes: []
+    dateDebut: '',
+    dateFin: '',
+    typeTrajet: '',
+    codeTrajet: '',
+    voiture: '',
+    libelle: '',
+    lieuDepart: '',
+    lieuArrivee: '',
+    heureDepart: '',
+    heureArrivee: '',
+    distance: '',
+    employes: []
   };
 }
 

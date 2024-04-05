@@ -9,6 +9,7 @@
             <th>Date fin</th>
             <th>Type Trajet</th>
             <th>Code Trajet</th>
+            <th>Voiture</th>
             <th>Libellé</th>
             <th>Lieu de départ</th>
             <th>Lieu d'arrivé</th>
@@ -25,6 +26,7 @@
             <td>{{ trajet.dateFin }}</td>
             <td>{{ trajet.typeTrajet }}</td>
             <td>{{ trajet.codeTrajet }}</td>
+            <td>{{ trajet.voiture }}</td>
             <td>{{ trajet.libelle }}</td>
             <td>{{ trajet.lieuDepart }}</td>
             <td>{{ trajet.lieuArrivee }}</td>
